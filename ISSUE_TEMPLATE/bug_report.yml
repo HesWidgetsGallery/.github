@@ -1,0 +1,62 @@
+name: Bug report
+description: Report a reproducible problem in a HesWidgetsGallery project.
+title: "[Bug]: "
+labels:
+  - bug
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to report a bug. Please search existing issues first and remove private data from logs and screenshots.
+  - type: input
+    id: project
+    attributes:
+      label: Affected project
+      description: Which organization repository and component are affected?
+      placeholder: HesWidgetsGalleryPrivate — HesComboBox
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Reproduction steps
+      description: Provide the smallest example or steps that reproduce the problem.
+      placeholder: |
+        1. Configure ...
+        2. Run ...
+        3. Observe ...
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version or commit
+      placeholder: v0.1.0 or abc1234
+    validations:
+      required: true
+  - type: input
+    id: environment
+    attributes:
+      label: Environment
+      description: Include OS, Qt version, compiler, architecture, and build type.
+      placeholder: Windows 11, Qt 6.8.3, MSVC 2022, x64, Release
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs and screenshots
+      description: Paste relevant logs or drag in screenshots. Remove secrets and personal data.
+      render: text

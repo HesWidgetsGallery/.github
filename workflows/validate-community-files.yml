@@ -1,0 +1,61 @@
+name: Validate community files
+
+"on":
+  push:
+    paths:
+      - ".github/**"
+  pull_request:
+    paths:
+      - ".github/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate YAML and required files
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Validate required files
+        shell: bash
+        run: |
+          set -euo pipefail
+          required=(
+            .github/profile/README.md
+            .github/CONTRIBUTING.md
+            .github/CODE_OF_CONDUCT.md
+            .github/SECURITY.md
+            .github/SUPPORT.md
+            .github/CODEOWNERS
+            .github/ISSUE_TEMPLATE/config.yml
+            .github/ISSUE_TEMPLATE/bug_report.yml
+            .github/ISSUE_TEMPLATE/feature_request.yml
+          )
+          for file in "${required[@]}"; do
+            test -s "$file" || { echo "Missing or empty: $file"; exit 1; }
+          done
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Parse YAML files
+        shell: python
+        run: |
+          import pathlib
+          import subprocess
+          import sys
+
+          subprocess.check_call([sys.executable, "-m", "pip", "install", "--disable-pip-version-check", "--no-input", "PyYAML"])
+          import yaml
+
+          files = list(pathlib.Path(".github").rglob("*.yml")) + list(pathlib.Path(".github").rglob("*.yaml"))
+          for path in files:
+              with path.open(encoding="utf-8") as stream:
+                  yaml.safe_load(stream)
+              print(f"valid: {path}")

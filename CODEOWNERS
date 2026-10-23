@@ -1,0 +1,5 @@
+# Organization defaults. Individual repositories may add more specific owners.
+* @HesWidgetsGallery
+
+# Keep community-health files consistent across the organization.
+/.github/ @HesWidgetsGallery
